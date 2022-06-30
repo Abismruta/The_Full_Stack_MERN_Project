@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -40,7 +40,7 @@ const NewPlace = () => {
     false
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const placeSubmitHandler = async event => {
     event.preventDefault();
@@ -50,10 +50,10 @@ const NewPlace = () => {
       formData.append('description', formState.inputs.description.value);
       formData.append('address', formState.inputs.address.value);
       formData.append('image', formState.inputs.image.value);
-      await sendRequest('http://localhost:5000/api/places', 'POST', formData, {
+      await sendRequest(process.env.REACT_APP_BACKEND_URL + '/places', 'POST', formData, {
         Authorization: 'Bearer ' + auth.token
       });
-      history.push('/');
+      navigate('/');
     } catch (err) {}
   };
 
